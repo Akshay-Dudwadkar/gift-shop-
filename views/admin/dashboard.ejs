@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - GiftShop</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <a href="/admin/logout">Logout</a>
+  </header>
+  <div class="dashboard">
+    <div class="sidebar">
+      <a href="#overview">Dashboard Overview</a>
+      <a href="#products">Product Management</a>
+      <a href="#orders">Order Management</a>
+      <a href="#customers">Customer Management</a>
+      <a href="#coupons">Coupons & Offers</a>
+    </div>
+    <div class="content">
+      <section id="overview" class="dashboard-section">
+        <h2>📊 Dashboard Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Orders</h3>
+            <p class="stat-number">0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Revenue Today</h3>
+            <p class="stat-number">$0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Revenue This Month</h3>
+            <p class="stat-number">$0</p>
+          </div>
+          <div class="stat-card">
+            <h3>Pending Customizations</h3>
+            <p class="stat-number">0</p>
+          </div>
+        </div>
+        <h3>Best-Selling Products</h3>
+        <div class="best-sellers">
+          <p>No data available</p>
+        </div>
+        <h3>Low Stock Alert</h3>
+        <div class="low-stock">
+          <p>No low stock items</p>
+        </div>
+      </section>
+
+      <section id="products" class="dashboard-section">
+        <h2>🛍 Product Management</h2>
+        <button class="btn" onclick="showAddProductForm()">Add New Product</button>
+        <div id="add-product-form" style="display: none;">
+          <form action="/admin/products" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Product Name" required>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <input type="number" name="price" placeholder="Price" step="0.01" required>
+            <input type="number" name="stock" placeholder="Stock Quantity" required>
+            <input type="file" name="image" accept="image/*">
+            <div class="customization-options">
+              <label><input type="checkbox" name="allowText"> Allow Text Customization</label>
+              <label><input type="checkbox" name="allowPhoto"> Allow Photo Upload</label>
+              <label><input type="checkbox" name="allowColor"> Allow Color Selection</label>
+            </div>
+            <button type="submit" class="btn">Add Product</button>
+          </form>
+        </div>
+        <h3>Existing Products</h3>
+        <div class="products-list">
+          <p>Product list will be loaded here</p>
+        </div>
+      </section>
+
+      <section id="orders" class="dashboard-section">
+        <h2>📦 Order Management</h2>
+        <div class="orders-list">
+          <p>No orders yet</p>
+        </div>
+      </section>
+
+      <section id="customers" class="dashboard-section">
+        <h2>👥 Customer Management</h2>
+        <div class="customers-list">
+          <p>Customer list will be loaded here</p>
+        </div>
+      </section>
+
+      <section id="coupons" class="dashboard-section">
+        <h2>🎟 Coupons & Offers</h2>
+        <button class="btn" onclick="showAddCouponForm()">Create New Coupon</button>
+        <div id="add-coupon-form" style="display: none;">
+          <form action="/admin/coupons" method="POST">
+            <input type="text" name="code" placeholder="Coupon Code" required>
+            <input type="number" name="discount" placeholder="Discount %" required>
+            <input type="date" name="expiry" required>
+            <button type="submit" class="btn">Create Coupon</button>
+          </form>
+        </div>
+        <h3>Active Coupons</h3>
+        <div class="coupons-list">
+          <p>No active coupons</p>
+        </div>
+      </section>
+    </div>
+  <script>
+    function showAddProductForm() {
+      const form = document.getElementById('add-product-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function showAddCouponForm() {
+      const form = document.getElementById('add-coupon-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
