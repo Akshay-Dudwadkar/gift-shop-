@@ -24,7 +24,7 @@
           <button class="profile-btn">
             <i class="fas fa-user"></i>
             <% if (session && session.user) { %>
-              <%= session.username %>
+              Account
             <% } else { %>
               Account
             <% } %>
@@ -46,6 +46,20 @@
       </nav>
     </div>
   </header>
+
+  <% if (session && session.user) { %>
+    <div class="welcome-section">
+      <div class="container welcome-content">
+        <h2>👋 Welcome Back!</h2>
+        <p class="user-greeting">Happy to see you, <strong><%= session.username %></strong></p>
+        <div class="quick-actions">
+          <a href="/cart" class="btn-quick">🛍️ My Cart</a>
+          <a href="/orders" class="btn-quick">📦 My Orders</a>
+          <a href="/wishlist" class="btn-quick">❤️ Wishlist</a>
+        </div>
+      </div>
+    </div>
+  <% } %>
   <section class="hero">
     <div class="container">
       <h2>Make It Personal ✨</h2>

@@ -17,6 +17,15 @@ const orderSchema = new mongoose.Schema({
   }],
   total: Number,
   status: { type: String, default: 'Pending' },
+  shippingAddress:{
+    fullName:String,
+    phone:String,
+    address:String,
+    city:String,
+    state:String,
+    postalCode:String,
+    country:String
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

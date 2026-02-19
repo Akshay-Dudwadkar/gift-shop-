@@ -9,19 +9,36 @@
 <body>
   <header>
     <div class="container">
-      <h1 class="logo">GiftShop</h1>
+      <h1 class="logo">
+        <a href="/">
+          <i class="fas fa-gift"></i>
+          GiftShop
+        </a>
+      </h1>
       <nav>
         <a href="/">Home</a>
         <a href="/products">Products</a>
         <a href="/cart">Cart <span id="cart-count" class="cart-count">0</span></a>
-        <% if (session && session.user) { %>
-          <span>Welcome, <%= session.username %></span>
-          <a href="/logout">Logout</a>
-        <% } else { %>
-          <a href="/login">Login</a>
-          <a href="/register">Register</a>
-        <% } %>
-        <a href="/admin/login">Admin</a>
+        <a href="/wishlist">Wishlist <span id="wishlist-count" class="cart-count">0</span></a>
+        <div class="profile-dropdown">
+          <button class="profile-btn">
+            <i class="fas fa-user"></i>
+            Account
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <% if (session && session.user) { %>
+              <a href="/profile"><i class="fas fa-user-circle"></i> My Profile</a>
+              <a href="/orders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+              <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <% } else { %>
+              <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+              <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+            <% } %>
+            <hr>
+            <a href="/admin/login"><i class="fas fa-cog"></i> Admin Panel</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -73,5 +90,15 @@
     </div>
   </footer>
   <script src="/js/script.js"></script>
+  <script>
+    function proceedToCheckout() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      window.location.href = '/checkout';
+    }
+  </script>
 </body>
 </html>

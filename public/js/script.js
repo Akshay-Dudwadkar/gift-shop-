@@ -18,18 +18,24 @@ function updateCartCount() {
   }
 }
 
-function addToCart(id, name, price, customization = null) {
+function addToCart(id, name, price, customization = null, image = null) {
   const item = cart.find(item => item.id === id && JSON.stringify(item.customization) === JSON.stringify(customization));
   if (item) {
     item.quantity++;
   } else {
+    // Get image from DOM if not provided
+    if (!image) {
+      const productCard = document.querySelector(`.product-card [data-id="${id}"]`)?.closest('.product-card');
+      image = productCard?.querySelector('img')?.src || 'https://via.placeholder.com/300x200';
+    }
+    
     cart.push({ 
       id, 
       name, 
       price: parseFloat(price), 
       quantity: 1, 
       customization,
-      image: 'https://via.placeholder.com/300x200' // Default image
+      image
     });
   }
   updateCart();
@@ -201,7 +207,10 @@ function toggleWishlist(id, name, price) {
     wishlist.splice(index, 1);
     showNotification(`${name} removed from wishlist`, 'info');
   } else {
-    wishlist.push({ id, name, price });
+    // Get the product image from the product card
+    const productCard = document.querySelector(`.product-card [data-id="${id}"]`)?.closest('.product-card');
+    const image = productCard?.querySelector('img')?.src || 'https://via.placeholder.com/300x200';
+    wishlist.push({ id, name, price, image });
     showNotification(`${name} added to wishlist!`, 'success');
   }
   updateWishlist();
@@ -293,7 +302,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const card = e.target.closest('.product-card');
       const name = card.querySelector('h3').textContent;
       const price = parseFloat(card.querySelector('.price').textContent.replace('$', ''));
-      addToCart(id, name, price);
+      const image = card.querySelector('img').src;
+      
+      // Add to cart with image
+      const item = cart.find(item => item.id === id && !item.customization);
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({
+          id,
+          name,
+          price,
+          quantity: 1,
+          customization: null,
+          image
+        });
+      }
+      updateCart();
+      showNotification(`${name} added to cart!`, 'success');
     });
   });
   
@@ -344,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(fontAwesome);
   }
 });
-});
+
 
 // Register form validation
 document.addEventListener('DOMContentLoaded', () => {
